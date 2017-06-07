@@ -1,0 +1,62 @@
+
+.minus-button {
+    -fx-background-image: url("../images/minus.png");
+}
+
+.close-button {
+    -fx-background-image: url("../images/close.png");
+}
+
+.minus-button, .close-button {
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 75%;
+    -fx-background-position: center center;
+    -fx-background-color: rgba(0, 88, 122, 1);
+}
+
+.close-button:hover {
+    -fx-background-color: rgba(255, 255, 247, .3);
+}
+
+.minus-button:hover {
+    -fx-background-color: rgba(255, 255, 247, .3);
+}
+
+.left-box{
+    -fx-background-color: rgba(0, 136, 145, 1);
+}
+
+.right-box{
+    -fx-background-color: rgba(0, 88, 122, 1);
+}
+
+.tagline{
+    -fx-font-family: Century Gothic;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18px;
+}
+
+.sign-in{
+    -fx-font-family: Century Gothic;
+    -fx-text-fill: rgba(231,231,222,1);
+    -fx-font-size: 18;
+}
+
+.error-message {
+    -fx-font-family: Century Gothic;
+    -fx-text-fill: #ff3333;
+    -fx-font-size: 18;
+}
+
+.text-field {
+    -fx-font-family: Consolas;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 18;
+    -fx-background-color: rgba(0, 88, 122, 1);
+}
+
+.buttons {
+    -fx-text-fill: #000000;
+    -fx-font-family: Verdana;
+    -fx-background-color: rgb(205,203,166);
+}

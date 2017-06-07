@@ -1,0 +1,25 @@
+
+.top-bar, .header, .bottom-bar {
+    -fx-background-color: #16A086;
+}
+
+.header-label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 50;
+}
+
+.close-button {
+    -fx-background-image: url("../images/close.png");
+    -fx-background-color: #16A086;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 75%;
+    -fx-background-position: center center;
+}
+
+.close-button:hover {
+    -fx-background-color: rgba(255, 255, 247, .3);
+}
+
+.vbox-body {
+    -fx-background-color: #1BBC9B;
+}

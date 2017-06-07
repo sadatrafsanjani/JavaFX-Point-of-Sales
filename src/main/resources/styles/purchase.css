@@ -1,0 +1,9 @@
+
+.header{
+    -fx-background-color: #ff3333;
+}
+
+.header-label{
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 40px;
+}
