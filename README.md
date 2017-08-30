@@ -1,6 +1,7 @@
 # JavaFX-Point-of-Sales
 Point of Sales with inventory management system 
 
+## License
 The MIT License (MIT)
 
 Copyright (c) 2013 Thomas Park
