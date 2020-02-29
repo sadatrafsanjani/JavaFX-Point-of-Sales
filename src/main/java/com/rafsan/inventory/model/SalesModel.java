@@ -21,7 +21,9 @@ public class SalesModel implements SaleDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Sale> products = session.createQuery("from Sale").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
+
+		session.close();
         products.stream().forEach(list::add);
 
         return list;
@@ -38,7 +40,9 @@ public class SalesModel implements SaleDao {
         List<Sale> products = (List<Sale>) session.createCriteria(Sale.class)
                 .add(Restrictions.eq("product.id", id)).list();
 
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
+     
+		session.close();
         products.stream().forEach(list::add);
 
         return list;
@@ -50,6 +54,8 @@ public class SalesModel implements SaleDao {
         session.beginTransaction();
         Sale sale = session.get(Sale.class, id);
         session.getTransaction().commit();
+       
+		session.close();
 
         return sale;
     }
@@ -61,6 +67,8 @@ public class SalesModel implements SaleDao {
         session.beginTransaction();
         session.save(sale);
         session.getTransaction().commit();
+      
+		session.close();
     }
 
     @Override
@@ -74,6 +82,8 @@ public class SalesModel implements SaleDao {
         s.setTotal(sale.getTotal());
         s.setDate(sale.getDate());
         session.getTransaction().commit();
+     ;
+		session.close();
     }
 
     @Override
@@ -83,6 +93,8 @@ public class SalesModel implements SaleDao {
         Sale s = session.get(Sale.class, sale.getId());
         session.delete(s);
         session.getTransaction().commit();
+   
+		session.close();
     }
 
 }

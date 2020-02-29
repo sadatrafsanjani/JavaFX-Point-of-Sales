@@ -23,7 +23,9 @@ public class ProductModel implements ProductDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Product> products = session.createQuery("from Product").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
+      
+		session.close();
         products.stream().forEach(list::add);
 
         return list;
@@ -36,7 +38,8 @@ public class ProductModel implements ProductDao {
         session.beginTransaction();
         Product product = session.get(Product.class, id);
         session.getTransaction().commit();
-
+     
+		session.close();
         return product;
     }
 
@@ -48,7 +51,8 @@ public class ProductModel implements ProductDao {
         Query query = session.createQuery("from Product where productName=:name");
         query.setParameter("name", productName);
         Product product = (Product) query.uniqueResult();
-        
+    
+		session.close();
         return product;
     }
 
@@ -58,6 +62,8 @@ public class ProductModel implements ProductDao {
         session.beginTransaction();
         session.save(product);
         session.getTransaction().commit();
+    
+		session.close();
     }
 
     @Override
@@ -72,6 +78,8 @@ public class ProductModel implements ProductDao {
         p.setPrice(product.getPrice());
         p.setDescription(product.getDescription());
         session.getTransaction().commit();
+       ;
+		session.close();
     }
     
     @Override
@@ -82,6 +90,8 @@ public class ProductModel implements ProductDao {
         Product p = session.get(Product.class, product.getId());
         p.setQuantity(product.getQuantity());
         session.getTransaction().commit();
+     
+		session.close();
     }
     
     @Override
@@ -92,6 +102,8 @@ public class ProductModel implements ProductDao {
         Product p = session.get(Product.class, product.getId());
         p.setQuantity(product.getQuantity());
         session.getTransaction().commit();
+     
+		session.close();
     }
 
     @Override
@@ -101,6 +113,8 @@ public class ProductModel implements ProductDao {
         Product p = session.get(Product.class, product.getId());
         session.delete(p);
         session.getTransaction().commit();
+    
+		session.close();
     }
     
     @Override
@@ -112,6 +126,8 @@ public class ProductModel implements ProductDao {
         criteria.setProjection(Projections.property("productName"));
         ObservableList<String> list = FXCollections.observableArrayList(criteria.list());
         session.getTransaction().commit();
+   
+		session.close();
         
         return list;
     }
