@@ -24,8 +24,8 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
 
-        Controller loginController = loader.getController();
-        loginController.setAppState(appState);
+        Controller controller = loader.getController();
+        controller.setAppState(appState);
 
         Parent root = loader.load();
         root.setOnMousePressed((MouseEvent event) -> {
