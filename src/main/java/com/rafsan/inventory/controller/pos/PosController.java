@@ -1,5 +1,6 @@
 package com.rafsan.inventory.controller.pos;
 
+import com.rafsan.inventory.AppState;
 import com.rafsan.inventory.entity.Item;
 import com.rafsan.inventory.entity.Payment;
 import com.rafsan.inventory.entity.Product;
@@ -29,12 +30,15 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Node;
+
+import com.rafsan.inventory.interfaces.Controller;
 import com.rafsan.inventory.interfaces.ProductInterface;
-import static com.rafsan.inventory.interfaces.ProductInterface.PRODUCTLIST;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.StageStyle;
 
-public class PosController implements Initializable, ProductInterface {
+public class PosController implements Initializable, ProductInterface, Controller {
+
+    private AppState appState;
 
     @FXML
     private TableView<Product> productTableView;
@@ -114,6 +118,10 @@ public class PosController implements Initializable, ProductInterface {
             sortedData.comparatorProperty().bind(productTableView.comparatorProperty());
             productTableView.setItems(sortedData);
         });
+    }
+
+    public void setAppState(AppState appState) {
+        this.appState = appState;
     }
 
     private void loadData() {

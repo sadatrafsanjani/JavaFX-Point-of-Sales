@@ -1,5 +1,7 @@
 package com.rafsan.inventory;
 
+import com.rafsan.inventory.interfaces.Controller;
+
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -13,12 +15,19 @@ import javafx.stage.StageStyle;
 
 public class MainApp extends Application {
 
+    private AppState appState = new AppState();
+
     private double xOffset = 0;
     private double yOffset = 0;
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/Login.fxml"));
+
+        Controller loginController = loader.getController();
+        loginController.setAppState(appState);
+
+        Parent root = loader.load();
         root.setOnMousePressed((MouseEvent event) -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -27,6 +36,7 @@ public class MainApp extends Application {
             stage.setX(event.getScreenX() - xOffset);
             stage.setY(event.getScreenY() - yOffset);
         });
+
         Scene scene = new Scene(root);
         stage.setTitle("Inventory:: Version 1.0");
         stage.getIcons().add(new Image("/images/logo.png"));

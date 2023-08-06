@@ -1,5 +1,7 @@
 package com.rafsan.inventory.controller.login;
 
+import com.rafsan.inventory.AppState;
+import com.rafsan.inventory.interfaces.Controller;
 import com.rafsan.inventory.model.EmployeeModel;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -21,7 +23,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import org.apache.commons.codec.digest.DigestUtils;
 
-public class LoginController implements Initializable {
+public class LoginController implements Initializable, Controller {
+
+    private AppState appState;
 
     @FXML
     private TextField usernameField, passwordField;
@@ -33,6 +37,10 @@ public class LoginController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         model = new EmployeeModel();
         enterPressed();
+    }
+
+    public void setAppState(AppState appState) {
+        this.appState = appState;
     }
 
     private void enterPressed() {
@@ -100,7 +108,12 @@ public class LoginController implements Initializable {
 
     private void windows(String path, String title) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource(path));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(path));
+
+        Controller controller = loader.getController();
+        controller.setAppState(appState);
+
+        Parent root = loader.load();
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setTitle(title);

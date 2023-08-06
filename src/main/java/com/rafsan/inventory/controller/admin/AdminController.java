@@ -1,5 +1,6 @@
 package com.rafsan.inventory.controller.admin;
 
+import com.rafsan.inventory.AppState;
 import com.rafsan.inventory.entity.Invoice;
 import com.rafsan.inventory.entity.Product;
 import com.rafsan.inventory.model.InvoiceModel;
@@ -32,6 +33,8 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 public class AdminController implements Initializable {
+
+    private AppState appState;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -134,6 +137,11 @@ public class AdminController implements Initializable {
         }
         
         stockChart.getData().addAll(lists);
+    }
+
+
+    public void setAppState(AppState appState) {
+        this.appState = appState;
     }
 
     @FXML
