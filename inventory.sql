@@ -8,6 +8,7 @@
 -- PHP Version: 5.5.38
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+/*Time Zone
 SET time_zone = "+00:00";
 
 
