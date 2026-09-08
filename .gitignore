@@ -1,0 +1,60 @@
+# ==============================
+# IntelliJ IDEA
+# ==============================
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# ==============================
+# Maven
+# ==============================
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# ==============================
+# Java
+# ==============================
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# ==============================
+# JavaFX / Build Artifacts
+# ==============================
+out/
+build/
+dist/
+
+# ==============================
+# Local Configuration / Secrets
+# ==============================
+*.properties.local
+*.env
+.env
+.env.*
+
+
+# ==============================
+# Operating System
+# ==============================
+.DS_Store
+.DS_Store?
+Thumbs.db
+Desktop.ini
+
+# ==============================
+# Temporary / Backup Files
+# ==============================
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
