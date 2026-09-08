@@ -20,7 +20,7 @@ public class PurchaseModel implements PurchaseDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Purchase> products = session.createQuery("from Purchase").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         products.stream().forEach(list::add);
 
         return list;

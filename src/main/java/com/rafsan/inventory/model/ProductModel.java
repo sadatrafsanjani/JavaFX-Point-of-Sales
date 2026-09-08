@@ -3,14 +3,10 @@ package com.rafsan.inventory.model;
 import com.rafsan.inventory.HibernateUtil;
 import com.rafsan.inventory.dao.ProductDao;
 import com.rafsan.inventory.entity.Product;
-import com.rafsan.inventory.entity.Supplier;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
 
 public class ProductModel implements ProductDao {
 
@@ -23,7 +19,7 @@ public class ProductModel implements ProductDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Product> products = session.createQuery("from Product").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         products.stream().forEach(list::add);
 
         return list;
@@ -43,12 +39,16 @@ public class ProductModel implements ProductDao {
     @Override
     public Product getProductByName(String productName) {
 
-        session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Product where productName=:name");
-        query.setParameter("name", productName);
-        Product product = (Product) query.uniqueResult();
-        
+
+        Product product = session.createQuery(
+                        "from Product p where p.productName = :name",
+                        Product.class
+                ).setParameter("name", productName)
+                .uniqueResult();
+
+        session.getTransaction().commit();
+
         return product;
     }
 
@@ -105,14 +105,15 @@ public class ProductModel implements ProductDao {
     
     @Override
     public ObservableList<String> getProductNames(){
-    
+
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Product.class);
-        criteria.setProjection(Projections.property("productName"));
-        ObservableList<String> list = FXCollections.observableArrayList(criteria.list());
+
+        List<String> productNames = session.createQuery("select p.productName from Product p", String.class).getResultList();
+        ObservableList<String> list = FXCollections.observableArrayList(productNames);
+
         session.getTransaction().commit();
-        
+
         return list;
     }
 }

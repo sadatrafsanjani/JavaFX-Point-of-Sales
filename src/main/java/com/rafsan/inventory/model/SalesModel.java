@@ -7,7 +7,6 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 public class SalesModel implements SaleDao {
 
@@ -21,7 +20,7 @@ public class SalesModel implements SaleDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Sale> products = session.createQuery("from Sale").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         products.stream().forEach(list::add);
 
         return list;
@@ -31,16 +30,11 @@ public class SalesModel implements SaleDao {
     public ObservableList<Sale> getSaleByProductId(long id) {
 
         ObservableList<Sale> list = FXCollections.observableArrayList();
-
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-
-        List<Sale> products = (List<Sale>) session.createCriteria(Sale.class)
-                .add(Restrictions.eq("product.id", id)).list();
-
-        session.beginTransaction().commit();
-        products.stream().forEach(list::add);
-
+        List<Sale> products = session.createQuery("from Sale s where s.product.id = :id", Sale.class).setParameter("id", id).getResultList();
+        session.getTransaction().commit();
+        products.forEach(list::add);
         return list;
     }
 

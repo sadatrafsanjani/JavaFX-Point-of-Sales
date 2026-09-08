@@ -6,9 +6,7 @@ import com.rafsan.inventory.entity.Category;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
 
 public class CategoryModel implements CategoryDao {
 
@@ -22,7 +20,7 @@ public class CategoryModel implements CategoryDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Category> categories = session.createQuery("from Category").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         categories.stream().forEach(list::add);
 
         return list;
@@ -70,14 +68,15 @@ public class CategoryModel implements CategoryDao {
 
     @Override
     public ObservableList<String> getTypes() {
-        
+
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Category.class);
-        criteria.setProjection(Projections.property("type"));
-        ObservableList<String> list = FXCollections.observableArrayList(criteria.list());
+
+        List<String> types = session.createQuery("select c.type from Category c", String.class).getResultList();
+        ObservableList<String> list = FXCollections.observableArrayList(types);
+
         session.getTransaction().commit();
-        
+
         return list;
     }
 

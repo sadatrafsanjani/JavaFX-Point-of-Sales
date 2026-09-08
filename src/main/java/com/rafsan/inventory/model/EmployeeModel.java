@@ -6,7 +6,6 @@ import com.rafsan.inventory.entity.Employee;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.hibernate.Query;
 import org.hibernate.Session;
 
 public class EmployeeModel implements EmployeeDao {
@@ -21,7 +20,7 @@ public class EmployeeModel implements EmployeeDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Employee> employees = session.createQuery("from Employee").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         employees.stream().forEach(list::add);
 
         return list;
@@ -40,14 +39,15 @@ public class EmployeeModel implements EmployeeDao {
     
     @Override
     public String getEmployeeType(String username){
-    
+
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Employee where userName = :username");
-        query.setParameter("username", username);
-        Employee employee = (Employee) query.uniqueResult();
+
+        Employee employee = session.createQuery("from Employee e where e.userName = :username", Employee.class).setParameter("username", username)
+                .uniqueResult();
+
         session.getTransaction().commit();
-       
+
         return employee.getType();
     }
 
@@ -90,9 +90,13 @@ public class EmployeeModel implements EmployeeDao {
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Employee where userName = :username");
-        query.setParameter("username", username);
-        Employee employee = (Employee) query.uniqueResult();
+
+        Employee employee = session.createQuery(
+                        "from Employee e where e.userName = :username",
+                        Employee.class
+                ).setParameter("username", username)
+                .uniqueResult();
+
         session.getTransaction().commit();
 
         return employee != null;
@@ -103,11 +107,8 @@ public class EmployeeModel implements EmployeeDao {
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Query query = session.createQuery("from Employee where userName = :username");
-        query.setParameter("username", username);
-        Employee employee = (Employee) query.uniqueResult();
+        Employee employee = session.createQuery("from Employee e where e.userName = :username", Employee.class).setParameter("username", username).uniqueResult();
         session.getTransaction().commit();
-
         return employee.getPassword().equals(password);
     }
 }

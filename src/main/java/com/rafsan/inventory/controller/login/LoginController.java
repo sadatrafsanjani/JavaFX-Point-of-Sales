@@ -2,6 +2,7 @@ package com.rafsan.inventory.controller.login;
 
 import com.rafsan.inventory.model.EmployeeModel;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -100,7 +101,7 @@ public class LoginController implements Initializable {
 
     private void windows(String path, String title) throws Exception {
 
-        Parent root = FXMLLoader.load(getClass().getResource(path));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(path)));
         Stage stage = new Stage();
         Scene scene = new Scene(root);
         stage.setTitle(title);

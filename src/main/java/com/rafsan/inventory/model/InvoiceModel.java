@@ -19,9 +19,11 @@ public class InvoiceModel implements InvoiceDao {
 
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        List<Invoice> products = session.createQuery("from Invoice").list();
-        session.beginTransaction().commit();
-        products.stream().forEach(list::add);
+
+        List<Invoice> products = session.createQuery("from Invoice", Invoice.class).getResultList();
+        session.getTransaction().commit();
+
+        products.forEach(list::add);
 
         return list;
     }

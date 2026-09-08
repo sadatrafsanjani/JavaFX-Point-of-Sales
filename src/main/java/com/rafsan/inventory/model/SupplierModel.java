@@ -2,14 +2,11 @@ package com.rafsan.inventory.model;
 
 import com.rafsan.inventory.HibernateUtil;
 import com.rafsan.inventory.dao.SupplierDao;
-import com.rafsan.inventory.entity.Category;
 import com.rafsan.inventory.entity.Supplier;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projections;
 
 public class SupplierModel implements SupplierDao {
 
@@ -22,7 +19,7 @@ public class SupplierModel implements SupplierDao {
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         List<Supplier> suppliers = session.createQuery("from Supplier").list();
-        session.beginTransaction().commit();
+        session.getTransaction().commit();
         suppliers.stream().forEach(list::add);
 
         return list;
@@ -72,14 +69,15 @@ public class SupplierModel implements SupplierDao {
     
     @Override
     public ObservableList<String> getNames(){
-    
+
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        Criteria criteria = session.createCriteria(Supplier.class);
-        criteria.setProjection(Projections.property("name"));
-        ObservableList<String> list = FXCollections.observableArrayList(criteria.list());
+
+        List<String> names = session.createQuery("select s.name from Supplier s", String.class).getResultList();
+        ObservableList<String> list = FXCollections.observableArrayList(names);
+
         session.getTransaction().commit();
-        
+
         return list;
     }
 

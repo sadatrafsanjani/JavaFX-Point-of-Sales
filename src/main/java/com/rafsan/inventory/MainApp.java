@@ -1,7 +1,6 @@
 package com.rafsan.inventory;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import java.util.Objects;
 
 public class MainApp extends Application {
 
@@ -19,7 +19,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Login.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Login.fxml")));
         root.setOnMousePressed((MouseEvent event) -> {
             xOffset = event.getSceneX();
             yOffset = event.getSceneY();
@@ -36,15 +36,20 @@ public class MainApp extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop() {
+        HibernateUtil.shutdown();
+    }
+
     public static void main(String[] args) {
 
         if (HibernateUtil.setSessionFactory()) {
             launch(args);
-            HibernateUtil.getSessionFactory().close();
-        } else {
+        }
+        else {
             Platform.runLater(() -> {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("An error has occured!");
+                alert.setTitle("An error has occurred!");
                 alert.setHeaderText("Database Connection Error!");
                 alert.setContentText("Please contact the developer");
                 alert.showAndWait();
